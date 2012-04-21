@@ -8,14 +8,14 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href="bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
         padding-bottom: 40px;
       }
     </style>
-    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="bootstrap/docs/assets/css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -23,10 +23,10 @@
     <![endif]-->
 
     <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="assets/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="bootstrap/docs/assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="bootstrap/docs/assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="bootstrap/docs/assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="bootstrap/docs/assets/ico/apple-touch-icon-57-precomposed.png">
   </head>
 
   <body>
@@ -39,14 +39,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Global Fires</a>
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
+          <a class="brand" href="#">EcoHackNYC 2012</a>
         </div>
       </div>
     </div>
@@ -55,27 +48,24 @@
 
       <!-- Main hero unit for a primary marketing message or call to action -->
       <div class="hero-unit">
-        <h1>Global Fires</h1>
-        <p>Every day, NASA satellites detect thousands of fires on the surface of the earth. The Global Fires project provides API access to this data with WebGL visualizations for over 14 million fires.</p>
-        <p><a class="btn btn-primary btn-large">Show demo &raquo;</a></p>
+        <h1>Global Fires Project</h1>
+        <p>Every day, NASA satellites detect thousands of fires on the surface of the earth. The Global Fires project provides API access and visualizations for over 14 million fires.</p>
+        <p><a id="demo-btn" class="btn btn-primary btn-large">Show demo &raquo;</a></p>
       </div>
 
       <!-- Example row of columns -->
       <div class="row">
         <div class="span4">
-          <h2>Heading</h2>
-           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn" href="#">View details &raquo;</a></p>
+          <h2>Data</h2>
+           <p>A fire location represents the center of a 1km pixel flagged as containing one or more actively burning fires. The fires are detected using data from the MODIS (or Moderate Resolution Imaging Spectroradiometer) sensor on NASA’s Aqua and Terra satellites. In most cases, MODIS hotspots are vegetation fires, but sometimes it is a volcanic eruption or the flare from a gas well.</p>
         </div>
         <div class="span4">
-          <h2>Heading</h2>
-           <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn" href="#">View details &raquo;</a></p>
+          <h2>API</h2>
+           <p>Fire data is loaded into CartoDB, an open source geospatial web application built by Vizzuality.  CartoDB API's provide search and map tile visualization capabilities. A proxy API was implemented on App Engine for providing a customized API that retuns results in different formats for different types of visualizations.</p>
        </div>
         <div class="span4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn" href="#">View details &raquo;</a></p>
+          <h2>Visualization</h2>
+          <p>We're using WebGL, CartoDB, CartoD3, and VECNIK to visualize fire data in different ways.</p>
         </div>
       </div>
 
@@ -90,19 +80,26 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap-transition.js"></script>
-    <script src="assets/js/bootstrap-alert.js"></script>
-    <script src="assets/js/bootstrap-modal.js"></script>
-    <script src="assets/js/bootstrap-dropdown.js"></script>
-    <script src="assets/js/bootstrap-scrollspy.js"></script>
-    <script src="assets/js/bootstrap-tab.js"></script>
-    <script src="assets/js/bootstrap-tooltip.js"></script>
-    <script src="assets/js/bootstrap-popover.js"></script>
-    <script src="assets/js/bootstrap-button.js"></script>
-    <script src="assets/js/bootstrap-collapse.js"></script>
-    <script src="assets/js/bootstrap-carousel.js"></script>
-    <script src="assets/js/bootstrap-typeahead.js"></script>
-
+    <script src="bootstrap/docs/assets/js/jquery.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-transition.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-alert.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-modal.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-dropdown.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-tab.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-tooltip.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-popover.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-button.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-collapse.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-carousel.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-typeahead.js"></script>
+    
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("#demo-btn").click(function() {
+          alert('hi')
+        });
+      });
+    </script>
   </body>
 </html>
