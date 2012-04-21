@@ -38,7 +38,7 @@ Backbone.CartoDB = function(options, query, cache) {
     };
 
 
-    var resource_path= options.user + '.cartodb.com/api/v1/sql';
+    var resource_path= options.user + '.cartodb.com/api/v2/sql';
     var resource_url = 'https://' + resource_path;
 
     /**
@@ -75,7 +75,7 @@ Backbone.CartoDB = function(options, query, cache) {
             });
         } else {
              // TODO: add timeout
-             $.getJSON(resource_url + '?q=' + encodeURIComponent(sql) + '&callback=?')
+             $.getJSON(resource_url + '?q=' + encodeURIComponent(sql))
              .success(callback)
              .fail(function(){ 
                     callback(); 
