@@ -7,15 +7,32 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+    <script type="text/javascript" src="underscore-1.1.6.js"></script>
+    <script type="text/javascript" src="backbone.js"></script>
+    <script type="text/javascript" src="backbone.cartodb.js"></script>
+    <script type="text/javascript" src="d3.min.js"></script>
+    <script type="text/javascript" src="d3.cartodb.js"></script>
+
+
     <!-- Le styles -->
-    <link href="bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/bootstrap/docs/assets/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
         padding-bottom: 40px;
       }
+      
+      .chart div {
+        font: 10px sans-serif;
+        background-color: steelblue;
+        text-align: right;
+        padding: 3px;
+        margin: 1px;
+        color: white;
+      }
     </style>
-    <link href="bootstrap/docs/assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/bootstrap/docs/assets/css/bootstrap-responsive.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -23,10 +40,10 @@
     <![endif]-->
 
     <!-- Le fav and touch icons -->
-    <link rel="shortcut icon" href="bootstrap/docs/assets/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="bootstrap/docs/assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="bootstrap/docs/assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="bootstrap/docs/assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="/bootstrap/docs/assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/bootstrap/docs/assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/bootstrap/docs/assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/bootstrap/docs/assets/ico/apple-touch-icon-57-precomposed.png">
   </head>
 
   <body>
@@ -50,7 +67,7 @@
       <div class="hero-unit">
         <h1>Global Fires Project</h1>
         <p>Every day, NASA satellites detect thousands of fires on the surface of the earth. The Global Fires project provides API access and visualizations for over 14 million fires.</p>
-        <p><a id="demo-btn" class="btn btn-primary btn-large">Show demo &raquo;</a></p>
+        <p><a id="demo-btn" class="btn btn-primary btn-large" href="http://webgl.ecohackfirez.appspot.com/globe/index.html" target="_blank">Show demo &raquo;</a></p>
       </div>
 
       <!-- Example row of columns -->
@@ -66,6 +83,7 @@
         <div class="span4">
           <h2>Visualization</h2>
           <p>We're using WebGL, CartoDB, CartoD3, and VECNIK to visualize fire data in different ways.</p>
+          <div id="fires-year"><div class="placeholder" style="background-image: url(http://netanimations.net/animated_Fire.gif); background-repeat: repeat-x; background-position: 50% 50%; min-height: 200px; width: 100%;"></div></div>
         </div>
       </div>
 
@@ -80,26 +98,58 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="bootstrap/docs/assets/js/jquery.js"></script>
-    <script src="bootstrap/docs/assets/js/bootstrap-transition.js"></script>
-    <script src="bootstrap/docs/assets/js/bootstrap-alert.js"></script>
-    <script src="bootstrap/docs/assets/js/bootstrap-modal.js"></script>
-    <script src="bootstrap/docs/assets/js/bootstrap-dropdown.js"></script>
-    <script src="bootstrap/docs/assets/js/bootstrap-scrollspy.js"></script>
-    <script src="bootstrap/docs/assets/js/bootstrap-tab.js"></script>
-    <script src="bootstrap/docs/assets/js/bootstrap-tooltip.js"></script>
-    <script src="bootstrap/docs/assets/js/bootstrap-popover.js"></script>
-    <script src="bootstrap/docs/assets/js/bootstrap-button.js"></script>
-    <script src="bootstrap/docs/assets/js/bootstrap-collapse.js"></script>
-    <script src="bootstrap/docs/assets/js/bootstrap-carousel.js"></script>
-    <script src="bootstrap/docs/assets/js/bootstrap-typeahead.js"></script>
+    <script src="/bootstrap/docs/assets/js/jquery.js"></script>
+    <script src="/bootstrap/docs/assets/js/bootstrap-transition.js"></script>
+    <script src="/bootstrap/docs/assets/js/bootstrap-alert.js"></script>
+    <script src="/bootstrap/docs/assets/js/bootstrap-modal.js"></script>
+    <script src="/bootstrap/docs/assets/js/bootstrap-dropdown.js"></script>
+    <script src="/bootstrap/docs/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="/bootstrap/docs/assets/js/bootstrap-tab.js"></script>
+    <script src="/bootstrap/docs/assets/js/bootstrap-tooltip.js"></script>
+    <script src="/bootstrap/docs/assets/js/bootstrap-popover.js"></script>
+    <script src="/bootstrap/docs/assets/js/bootstrap-button.js"></script>
+    <script src="/bootstrap/docs/assets/js/bootstrap-collapse.js"></script>
+    <script src="/bootstrap/docs/assets/js/bootstrap-carousel.js"></script>
+    <script src="/bootstrap/docs/assets/js/bootstrap-typeahead.js"></script>
     
-    <script type="text/javascript">
-      $(document).ready(function() {
-        $("#demo-btn").click(function() {
-          alert('hi')
-        });
+    
+    <script type="text/javascript" charset="utf-8">
+      var CartoDB = Backbone.CartoDB({
+          user: 'ecohack12-fires' // you should put your account name here
       });
+
+      var FirePlaces = CartoDB.CartoDBCollection.extend({
+          sql: function() {
+            return "SELECT count(*) as cnt, to_char(acq_date, 'YYYY') the_date FROM fires2 GROUP BY the_date HAVING to_char(acq_date, 'YYYY') >= '2002' ORDER BY the_date ASC limit 5000";
+          }
+      });
+      fp = new FirePlaces();
+      fp.fetch()
+
+      data = new Array();
+
+      fp.bind('reset',function(){
+        this.each(function(p) {
+          data.push(
+            {
+              count: p.get('cnt'),
+              the_date: p.get('the_date'),
+            });
+        });
+        draw_fires();
+      });
+
+      function draw_fires() {
+        $('#fires-year .placeholder').hide();
+        var chart = d3.select("#fires-year").append("div")
+        .attr("class", "chart");
+        chart.selectAll("div")
+        .data(data)
+        .enter().append("div")
+        .style("width", function(d) { return d.count/10000 + "px"; })
+        .text(function(d) { return 'Year ' + d.the_date + ' Fires: ' + d.count; });
+      }
+
     </script>
   </body>
 </html>
